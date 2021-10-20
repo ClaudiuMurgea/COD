@@ -1,16 +1,16 @@
 @extends('layouts.app')
 @section('content')
 
-    <h2>Category list!</h2>
+<h2>Category list!</h2>
 
-    <table class="table table-stripped">
-        <thead>
-            <tr>
-                <td>
-                    Nume
+<table class="table table-stripped">
+    <thead>
+        <tr>
+            <td>
+                &laquo;&laquo;Name&laquo;&laquo;<a href="/city/create" class="btn btn-warning ml-5">&larr;Add</a>
                 </td>
                 <td>
-                    Parinte
+                    &laquo;&laquo;Parinte&laquo;&laquo;
                 </td>
             </tr>
         </thead>

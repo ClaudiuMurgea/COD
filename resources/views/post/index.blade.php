@@ -19,16 +19,34 @@
   </a>
     @endif --}}
   </div>
-</div>
-          <div class="col-sm-10 col-sm offset-1 mt-5 text-center">
-            <a href="/category/create">Add Category</a>
+</div>  
+          <h5>Move down</h5>
+          <nav class="navbar navbar-inverse">
+            <ul class="nav navbar-nav">
+              <li class="nav-item active nav-link">
+          <div>
+            <div><a href="/post/create">Add post&rarr;</a></div>             
           </div>
-
+            </li>
+            <li class="nav-item active nav-link">
+            <a href="/category/create">Add Category&rarr;</a>    
+            </li>
+            <li class="nav-item active nav-link">
+          <div><a href="/city/create">Add City&rarr;</a></div>
+            </li> 
+            <li class="nav-item active nav-link">
+              <div><a href="/type/create">Add Type&rarr;</a></div>
+            </li> 
+          </ul>
+        </nav>
+          
 
         @foreach($posts as $post)
         {{-- Post Title --}}
         <h4 class="card-title mt-5 text-center">{{ $post->title }}</h4>
-
+        <h5>
+          {{ $post->City->cityname }} / {{ $post->Category->categoryname }} / {{ $post->Type->typename }}
+        </h5>
         {{-- Image --}}
         <img src="{{ asset('images/' . $post->image_path) }}" class="col-md-6 col-xs-6 img-fluid offset-3" alt="Image">
 
@@ -38,21 +56,22 @@
         {{-- Edit --}}
         <div class="float-right"><a href="/{{ $post->id }}/edit" class="btn btn-success">Edit post!&rarr;</a></div>
 
+        {{-- Submit --}}
+        <div class="float-right"><a href="/create" class="btn btn-primary">Add post&rarr;</a></div>
+
+        {{-- @if($post->status == 'active')
+        <h6 class="btn btn-warning">&laquo; Premium &laquo;</h6>
+        @else
+        <h6 class="btn btn-light">&laquo;&laquo;&laquo; FREE &laquo;&laquo;&laquo;</h6>
+        @endif --}}
+
+ 
         {{-- Delete --}}
         <form action="/{{ $post->id }}" method="POST">
           @csrf
           @method('DELETE')
           <button type="submit" class="btn btn-danger">Delete post!</button>
         </form>
-
-        @if($post->status == 'active')
-        <h6 class="btn btn-warning">&laquo; Premium &laquo;</h6>
-        @else
-        <h6 class="btn btn-light">&laquo;&laquo;&laquo; FREE &laquo;&laquo;&laquo;</h6>
-        @endif
-
-        {{-- Submit --}}
-        <div class="float-right"><a href="/create" class="btn btn-primary">Add post&rarr;</a></div>
       @endforeach   
       </div>
     </div>
