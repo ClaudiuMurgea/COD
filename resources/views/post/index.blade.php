@@ -1,5 +1,6 @@
 @extends('layouts.app')
-
+          <h5>Move down</h5>
+          <h5>Move down</h5>
 <div class="row">
   <div class="mx-auto">
   {{-- Login to post --}}
@@ -20,7 +21,7 @@
     @endif --}}
   </div>
 </div>  
-          <h5>Move down</h5>
+
           <nav class="navbar navbar-inverse">
             <ul class="nav navbar-nav">
               <li class="nav-item active nav-link">

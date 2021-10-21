@@ -17,11 +17,22 @@
         
     <input type="text" name="description" value="{{ $post->description }}">
 
-    <select name="category_id">
-        <option> Select Category </option>
-        @foreach ($cats as $cat)
-        <option value="{{ $cat->id }}" {{ ( $cat->id == $post->category_id ) ? 'selected' : '' }}>{{ $cat->categoryname}}</option>         
+    <select name="category_id" id="category_id">
+        @foreach ($parents as $parent)
+        <option value="">Select Child</option>
+        <option value="{{ $parent->id }}" {{ ( $parent->id == $post->category_id ) ? 'selected' : '' }}>
+            @if(($parent->category_id) == NULL) {{ $parent->categoryname}} @endif
+        </option>         
         @endforeach
+    </select>
+
+    <select name="child_id" id="child_id">
+        <option value="">Select Child</option>
+        @foreach ($children as $child)
+            <option value="{!! $child->id !!}" {!! $child->id == $post->subcategory_id ? 'selected' : '' !!}>{!! $child->categoryname !!}</option>
+            
+        @endforeach
+    </option>
     </select>
 
     <select name="city_id">
@@ -38,6 +49,59 @@
 
     <button type="submit" class="btn btn-success">Submit</button>
     </form>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            
+        });
+    })
+    
+    $('#category_id').change(function(){
+        let selectedParent = $(this).val();
+
+        //ajax request
+        $.ajax({
+            url: "/getChildrenOfParents/"+selectedParent,
+            type: "post",
+        
+        success: function (response) {
+
+            console.log(response)
+            if(response.errrors){
+                alert(response.message)
+                return;
+            }
+            $('#child_id')
+                .find('option')
+                .remove()
+
+            $('#child_id')
+                .append($("<option></option>")
+                            .attr("value", '')
+                            .text('Select Child')); 
+            if(response.message.length === 0){
+                   return;
+            
+            }
+            
+            $.each(response.message, function(key, value) {   
+                $('#child_id')
+                    .append($("<option></option>")
+                                .attr("value", value.id)
+                                .text(value.categoryname)); 
+            });
+        
+        },
+       
+    });
+
+    })
+    </script>
 
     @endsection
 </body>

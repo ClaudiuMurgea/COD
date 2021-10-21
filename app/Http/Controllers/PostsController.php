@@ -19,23 +19,25 @@ class PostsController extends Controller
 
     public function create()
     {  
-        $cats = Category::all();
+        $parents = Category::whereNull('category_id')->get();
         $cities = City::all();
         $types = Type::all();
-        return view('post.create', compact('cats', 'cities', 'types'));
+        return view('post.create', compact('parents', 'cities', 'types'));
     }
 
     public function store(Request $request)
     {
-        // $newImageName = time() . '-' . $request->name . '.' . $request->image->extension(); 
-        // $request->image->move(public_path('images'), $newImageName);
+        $newImageName = time() . '-' . $request->name . '.' . $request->image->extension(); 
+        $request->image->move(public_path('images'), $newImageName);
+
         $post = Post::create([
             'title' => $request->input('title'),
             'description' => $request->input('description'),
-            // 'image_path' => 'test',
             'city_id' => $request->input('city_id'),
-            'category_id' => $request->input('category_id'),
+            'category_id' => $request->input('parent_category'),
+            'subcategory_id' => $request->input('child_category'),
             'type_id' => $request->input('type_id'),
+            'image_path' => $newImageName,
         ]);
 
         return redirect('/');
@@ -50,18 +52,18 @@ class PostsController extends Controller
     public function edit($id)
     {   
         $post = Post::find($id);
-        $cats = Category::all();
+        $parents = Category::whereNull('category_id')->get();
+        $children = Category::where('category_id',$post->category_id)->get();
         $cities = City::all();
         $types = Type::all();
          
-        return view('post.edit', compact('post', 'cats', 'cities', 'types'));
+        return view('post.edit', compact('post', 'parents', 'cities', 'types','children'));
     }
 
     public function update(Request $request, $id)
     {    
         $post = Post::find($id);
 
-    
         $post->title = $request->title;
         $post->description = $request->description;
 
@@ -76,6 +78,7 @@ class PostsController extends Controller
             'category_id' => $request->category_id,
             'city_id' => $request->city_id,
             'type_id' => $request->type_id,
+            'subcategory_id' => $request->child_id      
         ];
 
         $post->update($data);
@@ -88,5 +91,22 @@ class PostsController extends Controller
         $post = Post::find($id);
         $post->delete();
         return redirect('/');
+    }
+    
+    public function ajax($parentID){
+        $parentCat = Category::find($parentID);
+
+        if(!$parentCat){
+            return response()->json([
+                'errors'    => true,
+                'message'   => 'This parent id is not correct! Please dont cheat'
+            ]);
+        }
+
+
+        return response()->json([
+            'errors'       => false,
+            'message'       => $parentCat->Subcategory
+        ]);
     }
 }

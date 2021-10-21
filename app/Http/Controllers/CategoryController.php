@@ -7,7 +7,6 @@ use App\Models\Category;
 
 class CategoryController extends Controller
 {
-   
     public function index()
     {   
         $parents = Category::whereNull('category_id')->get();       
@@ -71,5 +70,23 @@ class CategoryController extends Controller
         $parent = Category::find($id);
         $parent->delete();
         return redirect('/category/list');
+    }
+
+
+    public function ajax($parentID){
+        $parentCat = Category::find($parentID);
+
+        if(!$parentCat){
+            return response()->json([
+                'errors'    => true,
+                'message'   => 'This parent id is not correct! Please dont cheat'
+            ]);
+        }
+
+
+        return response()->json([
+            'errors'       => false,
+            'message'       => $parentCat->Subcategory
+        ]);
     }
 }

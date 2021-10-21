@@ -23,7 +23,7 @@ class TypesController extends Controller
         $type = Type::create([
             'typename' => $request->input('name')
         ]);
-        return redirect('');
+        return redirect('/type/list');
     }
 
     public function show()

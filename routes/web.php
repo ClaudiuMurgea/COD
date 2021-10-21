@@ -12,7 +12,6 @@ use App\Http\Controllers\TypesController;
 Route::get('/', [PostsController::class, 'index']);
 Route::get('/post/create', [PostsController::class, 'create']);
 Route::post('/post/store', [PostsController::class, 'store']);
-
 Route::get('/{id}/edit',    [PostsController::class, 'edit']);
 Route::post('/post/{id}/update',   [PostsController::class, 'update']);
 Route::delete('{id}',       [PostsController::class, 'destroy']);
@@ -44,3 +43,9 @@ Route::get('/type/{id}',        [TypesController::class, 'destroy']);
 
 Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+//AJAX ROUTES
+Route::post('/getChildrenOfParents/{parentID}',[CategoryController::class,'ajax']);
+
+Route::post('/getChildrenOfParents/{parentID}',[PostsController::class,'ajax']);

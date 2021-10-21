@@ -7,7 +7,7 @@
     <thead>
         <tr>
             <td>
-                &laquo;&laquo;Name&laquo;&laquo;<a href="/city/create" class="btn btn-warning ml-5">&larr;Add</a>
+                &laquo;&laquo;Name&laquo;&laquo;<a href="/category/create" class="btn btn-warning ml-5">&larr;Add</a>
                 </td>
                 <td>
                     &laquo;&laquo;Parinte&laquo;&laquo;

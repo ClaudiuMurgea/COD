@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'description', 'city_id', 'category_id', 'type_id'];
+    protected $fillable = ['title', 'description', 'city_id', 'category_id', 'subcategory_id', 'type_id', 'image_path'];
 
-    public function City() {
+    public function City() 
+    {
         return $this->belongsTo(City::class);
     }
 
-    public function Category() {
+    public function Category() 
+    {
         return $this->belongsTo(Category::class);
     }
 
@@ -22,4 +24,6 @@ class Post extends Model
     {
         return $this->belongsTo(Type::class);
     }
+
+
 }
